@@ -10,8 +10,6 @@ const cn = {
 	password: process.env.DB_PW,
 };
 
-const db = pgp(cn);
-
 const moviesTableQuery = `
 CREATE TABLE IF NOT EXISTS movies (
 	stt SERIAL,
@@ -308,21 +306,28 @@ async function insertReviews(db, reviewsData) {
 	}
 }
 
-async function createAndImportDataIfNotExists() {
+async function initializeDb() {
 	try {
+		const masterDb = pgp(cn);
 		const dbName = process.env.DB_DB;
 		const checkDatabaseQuery = `SELECT 1 FROM pg_catalog.pg_database WHERE datname = '${dbName}'`;
-		const dbCheckResult = await db.oneOrNone(checkDatabaseQuery);
+		const dbCheckResult = await masterDb.oneOrNone(checkDatabaseQuery);
 
 		const dbExists = dbCheckResult
 			? dbCheckResult['?column?'] === 1
 			: false;
 
-		if (!dbExists) {
-			await db.none(`CREATE DATABASE ${dbName}`);
+		let db;
 
-			const newDb = pgp({ ...cn, database: dbName });
+		if (!dbExists) {
+			await masterDb.none(`CREATE DATABASE ${dbName}`);
 			console.log(`Database '${dbName}' created successfully.`);
+
+			await masterDb.$pool.end();
+
+			db = pgp({ ...cn, database: dbName });
+			console.log(`Connected to database '${dbName}'.`);
+
 			// IMPORT DATA
 			const filePath = './data/data.json';
 			const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -331,14 +336,21 @@ async function createAndImportDataIfNotExists() {
 			const namesData = jsonData.Names;
 			const reviewsData = jsonData.Reviews;
 
-			await insertNames(newDb, namesData);
-			await insertReviews(newDb, reviewsData);
-			await insertMovies(newDb, moviesData);
+			await insertNames(db, namesData);
+			await insertReviews(db, reviewsData);
+			await insertMovies(db, moviesData);
 
 			console.log('Data imported successfully.');
 		} else {
+			await masterDb.$pool.end();
+
+			db = pgp({ ...cn, database: dbName });
+
 			console.log(`Database '${dbName}' is already existed.`);
+			console.log(`Connected to database '${dbName}'.`);
 		}
+
+		return db;
 	} catch (err) {
 		console.error(err);
 		throw new Error(
@@ -347,4 +359,4 @@ async function createAndImportDataIfNotExists() {
 	}
 }
 
-module.exports = { db, createAndImportDataIfNotExists };
+module.exports = { initializeDb };

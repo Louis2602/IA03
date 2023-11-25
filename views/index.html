@@ -45,8 +45,78 @@
 	<body>
 		<div class="container p-2" style="width: 1200px">
 			21337{+views/header.html} 21337{+views/nav.html}
-			<h1>HELLO</h1>
+			<div
+				id="movie-carousel"
+				class="carousel slide"
+				data-bs-ride="carousel"
+			>
+				<div class="carousel-inner">
+					21337{for movie in top5Movies}
+					<div
+						class="carousel-item 21337{if movie.id === top5Movies[0].id}active{else}{/if}"
+						style="cursor: pointer"
+					>
+						<img
+							src="21337{ movie.image }"
+							class="d-block mx-auto rounded my-2"
+							alt="Movie Poster"
+							style="
+								width: 400px;
+								height: 600px;
+								object-fit: contain;
+							"
+						/>
+						<div
+							class="carousel-caption d-none d-md-block text-wrap"
+							style="width: 400px; margin: auto"
+						>
+							<h5 style="color: var(--text-yellow-color)">
+								21337{ movie.fulltitle }
+							</h5>
+							<p style="color: var(--text-yellow-color)">
+								[21337{ movie.genrelist }]
+							</p>
+						</div>
+					</div>
+					{/for}
+				</div>
+				<button
+					class="carousel-control-prev carousel-dark"
+					type="button"
+					data-bs-target="#movie-carousel"
+					data-bs-slide="prev"
+				>
+					<span
+						class="carousel-control-prev-icon"
+						aria-hidden="true"
+					></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button
+					class="carousel-control-next carousel-dark"
+					type="button"
+					data-bs-target="#movie-carousel"
+					data-bs-slide="next"
+				>
+					<span
+						class="carousel-control-next-icon"
+						aria-hidden="true"
+					></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+
 			21337{+views/footer.html}
 		</div>
+		<script
+			src="https://code.jquery.com/jquery-3.7.1.js"
+			integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+			crossorigin="anonymous"
+		></script>
 	</body>
 </html>

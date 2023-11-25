@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const TemplateEngine = require('./21337');
 
 const bodyParser = require('body-parser');
-const db = require('./db');
+const { initializeDb } = require('./db');
 const CustomError = require('./modules/custom_err');
 
 const app = express();
@@ -21,17 +21,20 @@ app.engine('html', TemplateEngine.render);
 app.set('views', './views');
 app.set('view engine', 'html');
 
+const MovieController = require('./controllers/movie.controller');
 app.get('/', async (req, res) => {
 	try {
-		await db.createAndImportDataIfNotExists();
-		res.render('index');
+		await initializeDb();
+		const top5Movies = await MovieController.getTop5Rating(req, res);
+
+		res.render('index', { top5Movies });
 	} catch (err) {
 		console.error(err);
 	}
 });
 
-// const userRoutes = require('./routes/user.route');
-// app.use('/', userRoutes);
+const movieRoutes = require('./routes/movie.route');
+app.use('/', movieRoutes);
 
 // Handling invalid routes
 app.use((req, res, next) => {
