@@ -6,7 +6,6 @@ const fs = require('fs');
 const cn = {
 	host: process.env.DB_HOST,
 	port: process.env.DB_PORT,
-	database: process.env.DB_DB,
 	user: process.env.DB_USER,
 	password: process.env.DB_PW,
 };
@@ -321,22 +320,25 @@ async function createAndImportDataIfNotExists() {
 
 		if (!dbExists) {
 			await db.none(`CREATE DATABASE ${dbName}`);
+
+			const newDb = pgp({ ...cn, database: dbName });
 			console.log(`Database '${dbName}' created successfully.`);
+			// IMPORT DATA
+			const filePath = './data/data.json';
+			const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+			const moviesData = jsonData.Movies;
+			const namesData = jsonData.Names;
+			const reviewsData = jsonData.Reviews;
+
+			await insertNames(newDb, namesData);
+			await insertReviews(newDb, reviewsData);
+			await insertMovies(newDb, moviesData);
+
+			console.log('Data imported successfully.');
+		} else {
+			console.log(`Database '${dbName}' is already existed.`);
 		}
-
-		// IMPORT DATA
-		const filePath = './db/data.json';
-		const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-		const moviesData = jsonData.Movies;
-		const namesData = jsonData.Names;
-		const reviewsData = jsonData.Reviews;
-
-		await insertNames(db, namesData);
-		await insertReviews(db, reviewsData);
-		await insertMovies(db, moviesData);
-
-		console.log('Data imported successfully.');
 
 		await db.$pool.end();
 	} catch (err) {
