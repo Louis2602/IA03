@@ -339,8 +339,6 @@ async function createAndImportDataIfNotExists() {
 		} else {
 			console.log(`Database '${dbName}' is already existed.`);
 		}
-
-		await db.$pool.end();
 	} catch (err) {
 		console.error(err);
 		throw new Error(
