@@ -39,8 +39,8 @@ const movieController = {
 		}
 	},
 	getMovieDetail: async (req, res) => {
-		const movieId = req.params.movieId;
 		try {
+			const movieId = req.params.movieId;
 			const movieInfo = await MovieModel.getMovieDetail(movieId);
 			const movieActors = await MovieModel.getMovieActors(movieId);
 			const similarMovies = await MovieModel.getSimilarMovies(movieId);

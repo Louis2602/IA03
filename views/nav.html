@@ -8,22 +8,87 @@
 			<i class="fa-solid fa-house text-light"></i>
 		</a>
 		<a href="/admin" class="text-light">21337</a>
-		<form class="d-flex">
-			<input
-				class="form-control me-2"
-				type="search"
-				placeholder="Search"
-				aria-label="Search"
-				id="searchInput"
-				style="
-					background-color: var(--dark-background-color);
-					border: 1px solid #aaa;
-					color: #fff;
-				"
-			/>
-			<button class="btn btn-outline-success" type="submit">
-				Search
-			</button>
-		</form>
+		<div class="d-flex gap-2 flex-column">
+			<form class="d-flex" id="searchMovieForm">
+				<input
+					class="form-control me-2"
+					type="search"
+					placeholder="Search"
+					aria-label="Search"
+					id="searchMovieInput"
+					style="
+						background-color: var(--dark-background-color);
+						border: 1px solid #aaa;
+						color: #fff;
+					"
+				/>
+				<button class="btn btn-outline-success" type="submit">
+					Search Movies
+				</button>
+			</form>
+			<form class="d-flex" id="searchActorForm">
+				<input
+					class="form-control me-2"
+					type="search"
+					placeholder="Search"
+					aria-label="Search"
+					id="searchActorInput"
+					style="
+						background-color: var(--dark-background-color);
+						border: 1px solid #aaa;
+						color: #fff;
+					"
+				/>
+				<button class="btn btn-outline-success" type="submit">
+					Search Actors
+				</button>
+			</form>
+		</div>
 	</div>
 </nav>
+<script>
+	document
+		.getElementById('searchMovieForm')
+		.addEventListener('submit', (event) => {
+			event.preventDefault();
+			const searchQuery =
+				document.getElementById('searchMovieInput').value;
+			fetch(`/search/movies?query=${searchQuery}`)
+				.then(async (response) => {
+					if (response.ok) {
+						window.location.href =
+							'/search/movies?query=' + searchQuery;
+					} else {
+						throw new Error('Network response was not ok');
+					}
+				})
+				.catch((error) => {
+					console.error(
+						'There was a problem with the request:',
+						error
+					);
+				});
+		});
+	document
+		.getElementById('searchActorForm')
+		.addEventListener('submit', (event) => {
+			event.preventDefault();
+			const searchQuery =
+				document.getElementById('searchActorInput').value;
+			fetch(`/search/actors?query=${searchQuery}`)
+				.then(async (response) => {
+					if (response.ok) {
+						window.location.href =
+							'/search/actors?query=' + searchQuery;
+					} else {
+						throw new Error('Network response was not ok');
+					}
+				})
+				.catch((error) => {
+					console.error(
+						'There was a problem with the request:',
+						error
+					);
+				});
+		});
+</script>

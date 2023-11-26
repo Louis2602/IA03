@@ -45,6 +45,24 @@ const ActorModel = {
 			}
 		}
 	},
+	searchActors: async (searchQuery) => {
+		try {
+			const db = await initializeDb();
+			const query = 'select * from names where name ilike $1';
+			const actors = await db.any(query, [`%${searchQuery}%`]);
+
+			return actors;
+		} catch (error) {
+			if (
+				error.name === 'QueryResultError' &&
+				error.message.startsWith('No data returned from the query.')
+			) {
+				return [];
+			} else {
+				throw new Error('No actors found');
+			}
+		}
+	},
 };
 
 module.exports = ActorModel;

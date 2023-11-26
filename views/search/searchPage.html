@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>IA03</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+			integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+	</head>
+	<style>
+		:root {
+			--pink-color: #f2dada;
+			--blue-color: #d3e1fc;
+			--pink-color-dark: #281010;
+			--blue-color-dark: #0a1531;
+			--dark-background-color: #22252a;
+			--light-background-color: #ffffff;
+			--text-dark-pink-color: #462327;
+			--text-yellow-color: #ebc45f;
+		}
+		* {
+			box-sizing: border-box;
+			padding: 0;
+			margin: 0;
+		}
+		body {
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
+		}
+		a {
+			text-decoration: none;
+			list-style: none;
+			color: #000;
+		}
+		.carousel-item-wrapper {
+			display: flex;
+			margin-right: 0;
+			flex: 0 0 calc(100% / 3 - 5px);
+			overflow: auto;
+			border: 1px solid #000;
+			border-radius: 7px;
+		}
+		.carousel-inner {
+			padding: 0 40px;
+		}
+		.carousel-control-next,
+		.carousel-control-prev {
+			width: fit-content;
+		}
+	</style>
+	<body>
+		<div class="container p-2" style="width: 1200px">
+			<div class="container-fluid">
+				21337{+views/header.html} 21337{+views/nav.html}
+				<h3 class="mt-3">
+					Search results for keyword: 21337{searchQuery}
+				</h3>
+				<div class="container my-4">
+					<div class="row">
+						21337{for movie in data}
+						<div class="col-md-4 my-3">
+							<div
+								class="card h-100"
+								style="width: 350px; cursor: pointer"
+								onclick="handleSelectMovie('21337{movie.id}')"
+							>
+								<img
+									src="21337{movie.image}"
+									class="card-img-top"
+									alt="Movie Poster"
+								/>
+								<div
+									class="card-body d-flex flex-column align-items-center justify-content-center"
+								>
+									<h5 class="card-title">
+										21337{ movie.fulltitle }
+									</h5>
+									<p class="card-text">21337{ movie.plot }</p>
+									<p
+										class="card-text text-secondary fst-italic"
+									>
+										[21337{ movie.genrelist }]
+									</p>
+									<div
+										class="d-flex flex-row justify-content-between w-100"
+									>
+										<p class="card-text text-warning">
+											Rating: 21337{ movie.imdbrating }
+										</p>
+										<p class="card-text text-info">
+											Length: 21337{ movie.runtimestr }
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						{/for}
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			const handleSelectMovie = (movieId) => {
+				window.location.href = `/movies/${movieId}`;
+			};
+		</script>
+	</body>
+</html>

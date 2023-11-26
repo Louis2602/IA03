@@ -119,6 +119,26 @@ const MovieModel = {
 			}
 		}
 	},
+	searchMovies: async (searchQuery) => {
+		try {
+			const db = await initializeDb();
+			const query =
+				'select * from movies where title ilike $1 or genrelist ilike $1';
+			const movies = await db.any(query, [`%${searchQuery}%`]);
+
+			return movies;
+		} catch (err) {
+			if (
+				err.name === 'queryresulterror' &&
+				err.message === 'no data returned from the query.'
+			) {
+				return [];
+			} else {
+				console.log(err);
+				throw new error('no movies found');
+			}
+		}
+	},
 };
 
 module.exports = MovieModel;

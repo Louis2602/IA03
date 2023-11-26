@@ -26,12 +26,14 @@ const movieRoutes = require('./routes/movie.route');
 const reviewRoutes = require('./routes/review.route');
 const actorRoutes = require('./routes/actor.route');
 const adminRoutes = require('./routes/admin.route');
+const searchRoutes = require('./routes/search.route');
 
 app.use('/', indexRoutes);
 app.use('/movies', movieRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/actors', actorRoutes);
 app.use('/admin', adminRoutes);
+app.use('/search', searchRoutes);
 
 // Handling invalid routes
 app.use((req, res, next) => {
