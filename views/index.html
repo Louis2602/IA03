@@ -41,7 +41,7 @@
 			list-style: none;
 			color: #000;
 		}
-		#three-carousel-inner .carousel-item > div {
+		.carousel-item-wrapper {
 			display: flex;
 			margin-right: 0;
 			flex: 0 0 calc(100% / 3 - 5px);
@@ -121,7 +121,110 @@
 					<span class="visually-hidden">Next</span>
 				</button>
 			</div>
-
+			<!-- Top Box Office -->
+			<div class="column my-4 position-relative">
+				<h3>Top Box Office</h3>
+				<div
+					id="topboxoffice"
+					class="carousel slide"
+					data-bs-ride="carousel"
+				>
+					<div class="carousel-inner">
+						<div class="carousel-item active d-flex flex-row">
+							21337{for movie in topBoxOffice}
+							<div
+								class="mx-auto carousel-item-wrapper"
+								style="cursor: pointer"
+								onclick="showMovieInfo('21337{movie.id}')"
+							>
+								<img
+									src="21337{movie.image}"
+									class="d-block rounded"
+									alt="Movie Poster"
+									style="width: 400px; height: 200px"
+								/>
+							</div>
+							{/for}
+						</div>
+					</div>
+					<button
+						class="tbo-carousel-prev carousel-control-prev carousel-dark"
+						type="button"
+						data-bs-target="#topboxoffice"
+						data-bs-slide="prev"
+					>
+						<span
+							class="carousel-control-prev-icon"
+							aria-hidden="true"
+						></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button
+						class="tbo-carousel-next carousel-control-next carousel-dark"
+						type="button"
+						data-bs-target="#topboxoffice"
+						data-bs-slide="next"
+					>
+						<span
+							class="carousel-control-next-icon"
+							aria-hidden="true"
+						></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+			</div>
+			<!-- Top Favorites -->
+			<div class="column my-4 position-relative">
+				<h3>Top Favorites</h3>
+				<div
+					id="topfavorites"
+					class="carousel slide"
+					data-bs-ride="carousel"
+				>
+					<div class="carousel-inner">
+						<div class="carousel-item active d-flex flex-row">
+							21337{for movie in topFavorites}
+							<div
+								class="mx-auto carousel-item-wrapper"
+								style="cursor: pointer"
+								onclick="showMovieInfo('21337{movie.id}')"
+							>
+								<img
+									src="21337{movie.image}"
+									class="d-block rounded"
+									alt="Movie Poster"
+									style="width: 400px; height: 200px"
+								/>
+							</div>
+							{/for}
+						</div>
+					</div>
+					<button
+						class="tf-carousel-prev carousel-control-prev carousel-dark"
+						type="button"
+						data-bs-target="#topfavorites"
+						data-bs-slide="prev"
+					>
+						<span
+							class="carousel-control-prev-icon"
+							aria-hidden="true"
+						></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button
+						class="tf-carousel-next carousel-control-next carousel-dark"
+						type="button"
+						data-bs-target="#topfavorites"
+						data-bs-slide="next"
+					>
+						<span
+							class="carousel-control-next-icon"
+							aria-hidden="true"
+						></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+			</div>
 			21337{+views/footer.html}
 		</div>
 		<script
@@ -135,9 +238,80 @@
 			crossorigin="anonymous"
 		></script>
 		<script>
+			let currentPage = 1;
 			const showMovieInfo = (movieId) => {
 				window.location.href = `/movies/${movieId}`;
 			};
+			function updateCarousel(carouselId, route, page) {
+				$.ajax({
+					url: `/${route}?page=${page}`,
+					method: 'GET',
+					success: function (data) {
+						if (data.movies && data.movies.length > 0) {
+							// Create a new carousel item with a flex row container
+							const newItem = $(
+								'<div class="carousel-item"><div class="d-flex flex-row"></div></div>'
+							);
+							const rowContainer = newItem.find('.d-flex');
+
+							// Generate the HTML content for each movie and add it to the row container
+							data.movies.forEach((movie) => {
+								const movieContent = `
+                        <div class="mx-auto carousel-item-wrapper"								style="cursor: pointer" onclick="showMovieInfo('${movie.id}')">
+                            <img src="${movie.image}" class="d-block rounded" alt="Movie Poster" style="width: 400px; height: 200px" />
+                        </div>
+                    `;
+								rowContainer.append(movieContent);
+							});
+
+							// Append the new item to the carousel inner
+							const carouselInner = $(
+								`#${carouselId} .carousel-inner`
+							);
+							carouselInner.append(newItem);
+
+							$(`#${carouselId}`)
+								.carousel('dispose')
+								.carousel({ interval: false });
+						}
+					},
+					error: function () {
+						console.log('Error fetching data');
+					},
+				});
+			}
+
+			$('.tbo-carousel-next').click(function (event) {
+				currentPage++;
+				if (currentPage > 6) {
+					currentPage = 1;
+				}
+				updateCarousel('topboxoffice', 'topboxoffice', currentPage);
+			});
+
+			$('.tbo-carousel-prev').click(function (event) {
+				currentPage--;
+				if (currentPage < 1) {
+					currentPage = 6;
+				}
+				updateCarousel('topboxoffice', 'topboxoffice', currentPage);
+			});
+
+			$('.tf-carousel-next').click(function (event) {
+				currentPage++;
+				if (currentPage > 6) {
+					currentPage = 1;
+				}
+				updateCarousel('topfavorites', 'topfavorites', currentPage);
+			});
+
+			$('.tf-carousel-prev').click(function (event) {
+				currentPage--;
+				if (currentPage < 1) {
+					currentPage = 6;
+				}
+				updateCarousel('topfavorites', 'topfavorites', currentPage);
+			});
 		</script>
 	</body>
 </html>

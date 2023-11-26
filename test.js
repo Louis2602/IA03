@@ -67,24 +67,46 @@ class TemplateEngine {
 		return condition(context) ? truePart.trim() : falsePart.trim();
 	}
 
+	// processFor(args, context) {
+	// 	const forRegex =
+	// 		/21337\{for\s+(\w+)\s+in\s+(\w+)\}([\s\S]*?)\{\/for\}/g;
+
+	// 	const matches = forRegex.exec(this.template);
+	// 	if (!matches) return '';
+
+	// 	const [fullMatch, loopVar, arrayName, loopContent] = matches;
+	// 	const array = context[arrayName];
+	// 	if (!Array.isArray(array)) return '';
+
+	// 	return array
+	// 		.map((item) => {
+	// 			const loopContext = { ...context, [loopVar]: item };
+
+	// 			return this.parse(loopContent, loopContext);
+	// 		})
+	// 		.join('');
+	// }
 	processFor(args, context) {
-		const forRegex =
-			/21337\{for\s+(\w+)\s+in\s+(\w+)\}([\s\S]*?)\{\/for\}/g;
-
-		const matches = forRegex.exec(this.template);
-		if (!matches) return '';
-
-		const [fullMatch, loopVar, arrayName, loopContent] = matches;
-		const array = context[arrayName];
-		if (!Array.isArray(array)) return '';
-
-		return array
-			.map((item) => {
-				const loopContext = { ...context, [loopVar]: item };
-
-				return this.parse(loopContent, loopContext);
-			})
-			.join('');
+		let match;
+		let template = this.template;
+		const regex = /21337\{for\s+(\w+)\s+in\s+(\w+)\}([\s\S]*?){\/for}/g;
+		console.log(regex.exec(template));
+		while ((match = regex.exec(template)) !== null) {
+			const [placeholder, loopVar, arrayName, loopContent] = match;
+			const array = context[arrayName];
+			if (Array.isArray(array)) {
+				const replacedContent = array
+					.map((item) => {
+						const loopContext = { ...context, [loopVar]: item };
+						return this.parse(loopContent, loopContext);
+					})
+					.join('');
+				template = template.replace(placeholder, replacedContent);
+			} else {
+				template = template.replace(placeholder, '');
+			}
+		}
+		return template;
 	}
 
 	processVariable(expression, context) {
@@ -104,15 +126,16 @@ class TemplateEngine {
 module.exports = TemplateEngine;
 
 const for_template = `
-21337{if movie}
-	<p>Hello</p>
-{else}
-	<p>World</p>
-{/if}
+21337{for m in movie.dat}
+	<p>m.id</p>
+{/for}
 `;
 
 const context = {
-	movie: null,
+	movie: {
+		title: 'haha',
+		dat: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }],
+	},
 };
 
 const engine = new TemplateEngine(for_template);

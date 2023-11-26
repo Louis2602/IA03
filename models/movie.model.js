@@ -75,7 +75,7 @@ const MovieModel = {
 			);
 			const actorInfoPromises = movie_actors.map(async (actorObj) => {
 				const { actor_id } = actorObj;
-				const actorInfo = await db.one(
+				const actorInfo = await db.oneOrNone(
 					'SELECT * FROM names WHERE id = $1',
 					[actor_id]
 				);

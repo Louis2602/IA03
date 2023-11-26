@@ -21,13 +21,15 @@ app.engine('html', TemplateEngine.render);
 app.set('views', './views');
 app.set('view engine', 'html');
 
+const indexRoutes = require('./routes/index.route');
 const movieRoutes = require('./routes/movie.route');
 const reviewRoutes = require('./routes/review.route');
-const indexRoutes = require('./routes/index.route');
+const actorRoutes = require('./routes/actor.route');
 
+app.use('/', indexRoutes);
 app.use('/movies', movieRoutes);
 app.use('/reviews', reviewRoutes);
-app.use('/', indexRoutes);
+app.use('/actors', actorRoutes);
 
 // Handling invalid routes
 app.use((req, res, next) => {

@@ -1,0 +1,31 @@
+✓ -15 điểm: KHÔNG làm đúng yêu cầu bắt buộc.
+✓ -15 điểm: KHÔNG có file gitlog.txt đủ thông tin.
+✓ -5 điểm: có sử dụng thư viện khác ngoài bootstrap, fontawesome và jquery
+đối với front-end.
+✓ -5 điểm: KHÔNG giữ được bố cục yêu cầu (header, navbar, footer) ở bất kỳ
+trang nào ngoại trừ trang thông báo lỗi.
+✓ -3 điểm: KHÔNG có database. Không làm được chức năng tạo database thì
+có thể sử dụng dữ liệu trực tiếp từ file json và nhận -3.
+✓ -3 điểm: nếu sử dụng Template Engine không tự xây dựng hoặc không trả
+về cho client mã HTML.
+✓ -1 điểm: nếu không làm được chức năng Dark mode.
+✓ -1 điểm: nếu xây dựng Model không hợp lý.
+==============================================================================
+Hoàn thành: ✓ 1 điểm: xây dựng được chức năng tạo Postgres database và import dữ liệu
+đúng yêu cầu.
+Hoàn thành: ✓ 1 điểm: Template Engine tự xây dựng xử lý được điền dữ liệu từ biến.
+Hoàn thành: ✓ 1 điểm: Template Engine tự xây dựng xử lý được biểu thức điều kiện.
+Hoàn thành: ✓ 1 điểm: Template Engine tự xây dựng xử lý được biểu thức vòng lặp.
+✓ 1 điểm: Template Engine tự xây dựng xử lý được biểu thức con lồng nhau.
+Hoàn thành: ✓ 1 điểm: Template Engine tự xây dựng xử lý được chia Template thành các
+phần nhỏ.
+✓ 1 điểm: Template Engine tự xây dựng xử lý được biểu thức tính toán trong
+điều kiện và điền giá trị biến (ví dụ: 21243{ a + b} hay 21243{if x ===1 }).
+✓ 1 điểm: trang quản lý danh sách movie yêu thích (fav).
+Hoàn thành: ✓ 1 điểm: trang home hiển thị đúng yêu cầu.
+✓ 1 điểm: tìm kiếm movie, có phân trang (không bắt buộc AJAX).
+Hoàn thành: ✓ 1 điểm: xem chi tiết movie với đủ thông tin.
+✓ 1 điểm: sử dụng AJAX phân trang các review của movie.
+Hoàn thành: ✓ 1 điểm: xem chi tiết thông tin diễn viên có danh sách phim liên quan.
+✓ 1 điểm: tìm kiếm diễn viên hiển thị kết quả dạng bảng có phân trang.
+Hoàn thành: ✓ 1 điểm: quản lý và xử lý hiển thị các lỗi cho người dùng.

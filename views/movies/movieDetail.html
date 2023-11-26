@@ -129,7 +129,7 @@
 					21337{for cast in movieActors}
 					<div
 						class="col-md-2 my-3 text-center"
-						onclick="handleSelectActor(cast)"
+						onclick="handleSelectActor('21337{cast.actor_id}')"
 						style="cursor: pointer"
 					>
 						<img
@@ -238,5 +238,10 @@
 			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 			crossorigin="anonymous"
 		></script>
+		<script>
+			const handleSelectActor = (actorId) => {
+				window.location.href = `/actors/${actorId}`;
+			};
+		</script>
 	</body>
 </html>
