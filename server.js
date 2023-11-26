@@ -21,23 +21,13 @@ app.engine('html', TemplateEngine.render);
 app.set('views', './views');
 app.set('view engine', 'html');
 
-const MovieController = require('./controllers/movie.controller');
-app.get('/', async (req, res) => {
-	try {
-		await initializeDb();
-		const top5Movies = await MovieController.getTop5Rating(req, res);
-		// const topboxoffice = await MovieController.getTopBoxOffice(req, res);
-
-		res.render('index', { top5Movies });
-	} catch (err) {
-		console.error(err);
-	}
-});
-
 const movieRoutes = require('./routes/movie.route');
 const reviewRoutes = require('./routes/review.route');
-app.use('/', movieRoutes);
-app.use('/', reviewRoutes);
+const indexRoutes = require('./routes/index.route');
+
+app.use('/movies', movieRoutes);
+app.use('/reviews', reviewRoutes);
+app.use('/', indexRoutes);
 
 // Handling invalid routes
 app.use((req, res, next) => {

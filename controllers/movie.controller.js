@@ -30,8 +30,16 @@ const movieController = {
 		const movieId = req.params.movieId;
 		try {
 			const movieInfo = await MovieModel.getMovieDetail(movieId);
+			const movieActors = await MovieModel.getMovieActors(movieId);
+			const similarMovies = await MovieModel.getSimilarMovies(movieId);
 			const reviews = await ReviewModel.getReviewsByMovieId(movieId);
-			res.render('movies/movieDetail', { movieInfo, reviews });
+
+			res.render('movies/movieDetail', {
+				movieInfo,
+				movieActors,
+				similarMovies,
+				reviews,
+			});
 		} catch (err) {
 			res.status(500).json({ error: err.message });
 		}

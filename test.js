@@ -68,10 +68,9 @@ class TemplateEngine {
 	}
 
 	processFor(args, context) {
-		const forRegex = new RegExp(
-			`21337\\{for\\s(\\w+)\\sin\\s(\\w+)\\}([\\s\\S]*?)\\{/for\\}`,
-			'g'
-		);
+		const forRegex =
+			/21337\{for\s+(\w+)\s+in\s+(\w+)\}([\s\S]*?)\{\/for\}/g;
+
 		const matches = forRegex.exec(this.template);
 		if (!matches) return '';
 
@@ -105,13 +104,15 @@ class TemplateEngine {
 module.exports = TemplateEngine;
 
 const for_template = `
-21337{for starIndex in Math.floor(21337{movie} / 2)}
-<p>starIndex</p>
-{/for}
+21337{if movie}
+	<p>Hello</p>
+{else}
+	<p>World</p>
+{/if}
 `;
 
 const context = {
-	movie: 10,
+	movie: null,
 };
 
 const engine = new TemplateEngine(for_template);

@@ -79,21 +79,16 @@
 									<strong>Rating:</strong>
 								</p>
 								<div class="d-flex flex-row">
-									21337{for starIndex in
-									Math.floor(parseInt(movieInfo?.imdbrating) /
-									2)}
-									<span
-										class="float-right mx-1"
-										key="21337{starIndex}"
-									>
-										<i class="text-warning fa fa-star"></i>
-									</span>
-									{/for}
+									<p>21337{movieInfo?.imdbrating}</p>
+									<span class="float-right mx-1"
+										><i class="text-warning fa fa-star"></i
+									></span>
 								</div>
 							</div>
 							<p>
 								<strong>Languages:</strong>
-								21337{movieInfo?.languages}
+								21337{if movieInfo?.languages}
+								21337{movieInfo?.languages} {else} ... {/if}
 							</p>
 							<p>
 								<strong>Release Date:</strong>
@@ -101,11 +96,13 @@
 							</p>
 							<p>
 								<strong>Release Year:</strong>
-								21337{movieInfo?.year}
+								21337{if movieInfo?.year} 21337{movieInfo?.year}
+								{else} ... {/if}
 							</p>
 							<p>
 								<strong>Length:</strong>
-								21337{movieInfo?.runtimestr}
+								21337{if movieInfo?.runtimestr}
+								21337{movieInfo?.runtimestr} {else} ... {/if}
 							</p>
 							<p>
 								<strong>Genre:</strong>
@@ -113,71 +110,61 @@
 							</p>
 							<p><strong>Plot:</strong> 21337{movieInfo?.plot}</p>
 							<p>
-								<strong>Director:</strong>
-								21337{movieInfo?.directorList?.map(dir =>
-								dir.name).join(', ') }
-							</p>
-							<p>
-								<strong>Writer:</strong>
-								{{movieInfo?.writerList?.map(wri =>
-								wri.name).join(', ') }}
-							</p>
-							<p>
 								<strong>Companies:</strong>
-								21337{movieInfo?.companies }
-							</p>
-							<p>
-								<strong>Keywords:</strong>
-								21337{movieInfo?.keywords}
+								21337{if movieInfo?.companies}
+								21337{movieInfo?.companies} {else} ... {/if}
 							</p>
 						</div>
 					</div>
 				</div>
 				<div class="row">
+					21337{if movieInfo?.plotfull}
 					<h2 class="mb-4">Summary:</h2>
-					<div>21337{movieInfo?.plotfull}</div>
+					{else}
+					<h2 class="mb-4">No Summary Available</h2>
+					{/if}
 				</div>
 				<div class="row">
 					<h2 class="mb-4">Cast:</h2>
+					21337{for cast in movieActors}
 					<div
-						v-for="(cast, index) in movieInfo?.actorList"
-						:key="index"
 						class="col-md-2 my-3 text-center"
-						@click="handleSelectActor(cast)"
+						onclick="handleSelectActor(cast)"
 						style="cursor: pointer"
 					>
 						<img
-							v-if="cast?.image"
-							:src="cast?.image"
+							src="21337{cast?.image}"
 							alt="Cast Image"
 							width="100"
 							height="100"
 							class="rounded-circle"
 						/>
-						<p>{{cast?.name}}</p>
+						<p>21337{cast?.name}</p>
 					</div>
+					{/for}
 				</div>
-				<div class="row" v-if="movieInfo?.similars">
+				<div class="row">
+					21337{if similarMovies.length !== 0}
 					<h2 class="mb-4">Similar Movies:</h2>
+					21337{for similar in similarMovies}
 					<div
-						v-for="(similar, index) in movieInfo?.similars"
-						:key="index"
 						class="col-md-4 my-3 text-center"
-						@click="handleSelectSimilar(similar)"
+						onclick="handleSelectSimilar(similar)"
 						style="cursor: pointer"
 					>
 						<img
-							v-if="similar?.image"
-							:src="similar?.image"
+							src="21337{similar?.image}"
 							alt="Similar Image"
 							width="300"
 							height="300"
 							class="rounded"
 						/>
-						<p>{{similar?.title}}</p>
+						<p>21337{similar?.title}</p>
 					</div>
+					{/for} {else}
+					<h2 class="mb-4">No Similar Movies</h2>
+					{/if}
 				</div>
-				21337{if reviews.length !== 0}
 				<div>
 					<h2 class="mb-4">Reviews:</h2>
 					21337{for review in reviews}
@@ -199,20 +186,16 @@
 									</h4>
 									<div class="d-flex flex-row">
 										<p
-											class="float-left"
-											style="
-												margin-right: 5px;
-												color: 21337{if review.warningspoilers}red{else}green{/if};
-											"
+											class="float-left 21337{if review?.warningspoilers}text-danger{else}text-success{/if}"
+											style="margin-right: 5px"
 										>
 											<strong
 												>21337{review?.username}</strong
 											>
 										</p>
 										<div class="d-flex flex-row">
-											21337{for starIndex in
-											Math.floor(21337{review?.rate} / 2)}
-											<span class="float-right"
+											<p>21337{review?.rate}</p>
+											<span class="float-right mx-1"
 												><i
 													class="text-warning fa fa-star"
 												></i
@@ -230,15 +213,18 @@
 						</div>
 					</div>
 					{/for}
-					<div class="col-md-12">
-						<Pagination
-							:pages="Math.ceil(reviews?.length / itemsPerPage)"
-							@page-change="loadReviewPage"
-							:currentPage="currentReviewPage"
-						/>
-					</div>
+					<ul class="pagination justify-content-end">
+						<ul class="pagination pagination-md">
+							<li class="page-item active" aria-current="page">
+								<span
+									class="page-link"
+									href="javascript:void(0)"
+									>1</span
+								>
+							</li>
+						</ul>
+					</ul>
 				</div>
-				{/if}
 			</div>
 			21337{+views/footer.html}
 		</div>
