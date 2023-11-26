@@ -142,6 +142,29 @@ CREATE TABLE IF NOT EXISTS reviews (
 );
 `;
 
+const favoritesMoviesQuery = `
+CREATE TABLE IF NOT EXISTS favorite_movies (
+	stt SERIAL,
+    id VARCHAR(50),
+    title TEXT,
+    originalTitle TEXT,
+    fullTitle TEXT,
+    year VARCHAR(10),
+    image TEXT,
+    releaseDate DATE,
+    runtimeStr TEXT,
+    plot TEXT,
+    awards TEXT,
+    genreList TEXT,
+    companies TEXT,
+    countries TEXT,
+    languages TEXT,
+    imDbRating TEXT,
+    boxOffice TEXT,
+    plotFull TEXT,
+	PRIMARY KEY (stt, id)
+);
+`;
 async function insertMovies(db, moviesData) {
 	try {
 		await db.none(moviesTableQuery);
@@ -151,6 +174,8 @@ async function insertMovies(db, moviesData) {
 		await db.none(moviesImageQuery);
 		await db.none(moviesPosterQuery);
 		await db.none(moviesSimilarQuery);
+
+		await db.none(favoritesMoviesQuery);
 
 		for (const movie of moviesData) {
 			await db.none(

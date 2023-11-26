@@ -4,7 +4,7 @@ const ReviewModel = require('../models/review.model');
 const movieController = {
 	getAllMovies: async (req, res) => {
 		try {
-			let movies = await MovieModel.getAllMovies();
+			const movies = await MovieModel.getAllMovies();
 			return movies;
 		} catch (err) {
 			res.status(err.statusCode).render('error', {

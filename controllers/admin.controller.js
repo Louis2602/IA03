@@ -1,9 +1,12 @@
 const MovieModel = require('../models/movie.model');
+const FavoriteModel = require('../models/favorite.model');
 
-const actorController = {
+const adminController = {
 	getAdminPage: async (req, res) => {
 		try {
-			res.render('authentication/admin', { actor, castMovies });
+			const movies = await MovieModel.getAllMovies();
+			const favMovies = await FavoriteModel.getFavoriteMovies();
+			res.render('authentication/admin', { movies, favMovies });
 		} catch (err) {
 			res.status(err.statusCode).render('error', {
 				code: err.statusCode,
@@ -12,13 +15,35 @@ const actorController = {
 			});
 		}
 	},
-	getActorInfo: async (req, res) => {
+	addToFavorite: async (req, res) => {
 		try {
-			const actorId = req.params.actorId;
-			const actor = await ActorModel.getActorById(actorId);
-			const castMovies = await ActorModel.getCastMoviesOfActor(actorId);
-
-			res.render('actors/actorDetail', { actor, castMovies });
+			const { movieId } = req.body;
+			// Check if movie already been added
+			let msg;
+			const foundFavMovie = await FavoriteModel.getFavoriteMovieById(
+				movieId
+			);
+			if (foundFavMovie.length !== 0) {
+				msg = 'Movie has already been added to favorites';
+				res.status(200).json({ message: msg });
+			} else {
+				const movie = await MovieModel.getMovieDetail(movieId);
+				msg = await FavoriteModel.addToFavorite(movie);
+				res.status(200).json({ message: msg });
+			}
+		} catch (err) {
+			res.status(err.statusCode).render('error', {
+				code: err.statusCode,
+				msg: 'Server error',
+				description: err.message,
+			});
+		}
+	},
+	removeFromFavorite: async (req, res) => {
+		try {
+			const { movieId } = req.body;
+			const msg = await FavoriteModel.removeFromFavorite(movieId);
+			res.status(200).json({ message: msg });
 		} catch (err) {
 			res.status(err.statusCode).render('error', {
 				code: err.statusCode,
@@ -29,4 +54,4 @@ const actorController = {
 	},
 };
 
-module.exports = actorController;
+module.exports = adminController;
