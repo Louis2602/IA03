@@ -9,7 +9,11 @@ const indexController = {
 
 			res.render('index', { top5Movies, topBoxOffice, topFavorites });
 		} catch (err) {
-			res.status(500).json({ error: err.message });
+			res.status(err.statusCode).render('error', {
+				code: err.statusCode,
+				msg: 'Server error',
+				description: err.message,
+			});
 		}
 	},
 	topBoxOffice: async (req, res) => {
@@ -22,7 +26,11 @@ const indexController = {
 			res.json({ page, movies });
 		} catch (error) {
 			console.error('Error in topBoxOffice:', error);
-			res.status(500).json({ error: 'Internal Server Error' });
+			res.status(err.statusCode).render('error', {
+				code: err.statusCode,
+				msg: 'Server error',
+				description: err.message,
+			});
 		}
 	},
 	topFavorites: async (req, res) => {
@@ -35,7 +43,11 @@ const indexController = {
 			res.json({ page, movies });
 		} catch (error) {
 			console.error('Error in top favorites:', error);
-			res.status(500).json({ error: 'Internal Server Error' });
+			res.status(err.statusCode).render('error', {
+				code: err.statusCode,
+				msg: 'Server error',
+				description: err.message,
+			});
 		}
 	},
 };

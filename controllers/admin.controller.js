@@ -1,6 +1,17 @@
-const ActorModel = require('../models/actor.model');
+const MovieModel = require('../models/movie.model');
 
 const actorController = {
+	getAdminPage: async (req, res) => {
+		try {
+			res.render('authentication/admin', { actor, castMovies });
+		} catch (err) {
+			res.status(err.statusCode).render('error', {
+				code: err.statusCode,
+				msg: 'Server error',
+				description: err.message,
+			});
+		}
+	},
 	getActorInfo: async (req, res) => {
 		try {
 			const actorId = req.params.actorId;

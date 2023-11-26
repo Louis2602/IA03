@@ -20,7 +20,11 @@ const render = (filePath, options, callback) => {
 		let match;
 
 		// Handle for
-		const loopPattern = /21337{for\s(\w+)\sin\s(\w+)}([\s\S]*?){\/for}/g;
+		const loopPattern =
+			/21337{for\s(\w+)\sin\s(\w+)(?:\.length)?}([\s\S]*?){\/for}/g;
+
+		// const loopPattern = /21337{for\s(\w+)\sin\s(\w+)}([\s\S]*?){\/for}/g;
+
 		rendered = rendered.replace(
 			loopPattern,
 			(fullMatch, loopVar, arrayName, loopContent) => {
@@ -28,7 +32,10 @@ const render = (filePath, options, callback) => {
 				if (Array.isArray(array)) {
 					return array
 						.map((item) => {
-							const loopContext = { ...options, [loopVar]: item };
+							const loopContext = {
+								...options,
+								[loopVar]: item,
+							};
 
 							// Process if statements inside the loop
 							return loopContent

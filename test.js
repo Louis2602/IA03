@@ -126,16 +126,13 @@ class TemplateEngine {
 module.exports = TemplateEngine;
 
 const for_template = `
-21337{for m in movie.dat}
-	<p>m.id</p>
+21337{for masd in movie}
+	<p>21337{masd.id}</p>
 {/for}
 `;
 
 const context = {
-	movie: {
-		title: 'haha',
-		dat: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }],
-	},
+	movie: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }],
 };
 
 const engine = new TemplateEngine(for_template);

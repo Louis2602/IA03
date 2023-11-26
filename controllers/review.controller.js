@@ -4,10 +4,20 @@ const reviewController = {
 	getReviewsByMovieId: async (req, res) => {
 		try {
 			const movieId = req.params.movieId;
-			let reviews = await ReviewModel.getReviewsByMovieId(movieId);
-			return reviews;
+			const { page } = req.query;
+			const per_page = 2;
+			let reviews = await ReviewModel.getReviewsByMovieId(
+				movieId,
+				page,
+				per_page
+			);
+			res.json({ reviews });
 		} catch (err) {
-			res.status(500).json({ error: err.message });
+			res.status(err.statusCode).render('error', {
+				code: err.statusCode,
+				msg: 'Server error',
+				description: err.message,
+			});
 		}
 	},
 };
