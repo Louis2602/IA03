@@ -8,8 +8,7 @@ function processVariable(expression, context) {
 		);
 		return fn(context);
 	} catch (e) {
-		console.warn(`Error processing variable '${expression}': ${e}`);
-		return '';
+		return context[expression.trim()];
 	}
 }
 const render = (filePath, options, callback) => {
@@ -80,7 +79,7 @@ const render = (filePath, options, callback) => {
 
 		// Handle variable replacements like 21337{x}
 		rendered = rendered.replace(regex, (match, expression) => {
-			const value = options[expression.trim()];
+			const value = processVariable(expression.trim(), options);
 			return typeof value !== 'undefined' ? value : match;
 		});
 

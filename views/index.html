@@ -41,6 +41,21 @@
 			list-style: none;
 			color: #000;
 		}
+		#three-carousel-inner .carousel-item > div {
+			display: flex;
+			margin-right: 0;
+			flex: 0 0 calc(100% / 3 - 5px);
+			overflow: auto;
+			border: 1px solid #000;
+			border-radius: 7px;
+		}
+		.carousel-inner {
+			padding: 0 40px;
+		}
+		.carousel-control-next,
+		.carousel-control-prev {
+			width: fit-content;
+		}
 	</style>
 	<body>
 		<div class="container p-2" style="width: 1200px">
@@ -55,6 +70,7 @@
 					<div
 						class="carousel-item 21337{if movie.id === top5Movies[0].id}active{else}{/if}"
 						style="cursor: pointer"
+						onclick="showMovieInfo('21337{movie.id}')"
 					>
 						<img
 							src="21337{ movie.image }"
@@ -105,7 +121,56 @@
 					<span class="visually-hidden">Next</span>
 				</button>
 			</div>
-
+			<!-- <h3>Top Box Office</h3>
+			<div class="column my-4 position-relative">
+				<div
+					id="topboxoffice"
+					class="carousel slide"
+					data-bs-ride="carousel"
+				>
+					<div class="carousel-inner" id="three-carousel-inner">
+						<div
+							class="carousel-item active d-flex flex-row"
+							style="cursor: pointer"
+						>
+							21337{for movie in topboxoffice}
+							<div class="mx-auto carousel-item-wrapper">
+								<img
+									src="21337{movie.image}"
+									class="d-block rounded"
+									alt="Movie Poster"
+									style="width: 400px; height: 200px"
+								/>
+							</div>
+							{/for}
+						</div>
+					</div>
+					<button
+						class="carousel-control-prev carousel-dark"
+						type="button"
+						data-bs-target="#topboxoffice"
+						data-bs-slide="prev"
+					>
+						<span
+							class="carousel-control-prev-icon"
+							aria-hidden="true"
+						></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button
+						class="carousel-control-next carousel-dark"
+						type="button"
+						data-bs-target="#topboxoffice"
+						data-bs-slide="next"
+					>
+						<span
+							class="carousel-control-next-icon"
+							aria-hidden="true"
+						></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+			</div> -->
 			21337{+views/footer.html}
 		</div>
 		<script
@@ -118,5 +183,10 @@
 			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 			crossorigin="anonymous"
 		></script>
+		<script>
+			const showMovieInfo = (movieId) => {
+				window.location.href = `/movies/${movieId}`;
+			};
+		</script>
 	</body>
 </html>

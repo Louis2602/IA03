@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+		/>
+		<title>IA03</title>
+	</head>
+	<style>
+		:root {
+			--pink-color: #f2dada;
+			--blue-color: #d3e1fc;
+			--pink-color-dark: #281010;
+			--blue-color-dark: #0a1531;
+			--dark-background-color: #22252a;
+			--light-background-color: #ffffff;
+			--text-dark-pink-color: #462327;
+			--text-yellow-color: #ebc45f;
+		}
+		* {
+			box-sizing: border-box;
+			padding: 0;
+			margin: 0;
+		}
+		body {
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
+		}
+		a {
+			text-decoration: none;
+			list-style: none;
+			color: #000;
+		}
+	</style>
+	<body>
+		<div class="container p-2" style="width: 1200px">
+			21337{+views/header.html} 21337{+views/nav.html}
+			<div class="container my-5">
+				<div
+					style="
+						background-image: url(21337{movieInfo.image});
+						padding: 30px;
+					"
+					class="my-4"
+				>
+					<div class="row">
+						<div class="col-md-4">
+							<!-- Movie Poster -->
+							<img
+								src="21337{ movieInfo.image }"
+								alt="Movie Poster"
+								class="img-fluid w-100 h-100"
+								style="object-fit: contain"
+							/>
+						</div>
+						<div
+							class="col-md-8 my-2"
+							style="
+								background-color: #343a40;
+								color: #ffffff;
+								padding: 20px;
+								opacity: 0.8;
+							"
+						>
+							<!-- Movie Details -->
+							<h2 class="mb-4">21337{ movieInfo.title }</h2>
+							<div class="d-flex flex-row">
+								<p class="float-left" style="margin-right: 5px">
+									<strong>Rating:</strong>
+								</p>
+								<div class="d-flex flex-row">
+									21337{for starIndex in
+									Math.floor(parseInt(movieInfo?.imdbrating) /
+									2)}
+									<span
+										class="float-right mx-1"
+										key="21337{starIndex}"
+									>
+										<i class="text-warning fa fa-star"></i>
+									</span>
+									{/for}
+								</div>
+							</div>
+							<p>
+								<strong>Languages:</strong>
+								21337{movieInfo?.languages}
+							</p>
+							<p>
+								<strong>Release Date:</strong>
+								21337{movieInfo?.releasedate}
+							</p>
+							<p>
+								<strong>Release Year:</strong>
+								21337{movieInfo?.year}
+							</p>
+							<p>
+								<strong>Length:</strong>
+								21337{movieInfo?.runtimestr}
+							</p>
+							<p>
+								<strong>Genre:</strong>
+								21337{movieInfo?.genrelist}
+							</p>
+							<p><strong>Plot:</strong> 21337{movieInfo?.plot}</p>
+							<p>
+								<strong>Director:</strong>
+								21337{movieInfo?.directorList?.map(dir =>
+								dir.name).join(', ') }
+							</p>
+							<p>
+								<strong>Writer:</strong>
+								{{movieInfo?.writerList?.map(wri =>
+								wri.name).join(', ') }}
+							</p>
+							<p>
+								<strong>Companies:</strong>
+								21337{movieInfo?.companies }
+							</p>
+							<p>
+								<strong>Keywords:</strong>
+								21337{movieInfo?.keywords}
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<h2 class="mb-4">Summary:</h2>
+					<div>21337{movieInfo?.plotfull}</div>
+				</div>
+				<div class="row">
+					<h2 class="mb-4">Cast:</h2>
+					<div
+						v-for="(cast, index) in movieInfo?.actorList"
+						:key="index"
+						class="col-md-2 my-3 text-center"
+						@click="handleSelectActor(cast)"
+						style="cursor: pointer"
+					>
+						<img
+							v-if="cast?.image"
+							:src="cast?.image"
+							alt="Cast Image"
+							width="100"
+							height="100"
+							class="rounded-circle"
+						/>
+						<p>{{cast?.name}}</p>
+					</div>
+				</div>
+				<div class="row" v-if="movieInfo?.similars">
+					<h2 class="mb-4">Similar Movies:</h2>
+					<div
+						v-for="(similar, index) in movieInfo?.similars"
+						:key="index"
+						class="col-md-4 my-3 text-center"
+						@click="handleSelectSimilar(similar)"
+						style="cursor: pointer"
+					>
+						<img
+							v-if="similar?.image"
+							:src="similar?.image"
+							alt="Similar Image"
+							width="300"
+							height="300"
+							class="rounded"
+						/>
+						<p>{{similar?.title}}</p>
+					</div>
+				</div>
+				21337{if reviews.length !== 0}
+				<div>
+					<h2 class="mb-4">Reviews:</h2>
+					21337{for review in reviews}
+					<div class="card my-2">
+						<div class="card-body" style="background-color: #fff">
+							<div class="row">
+								<div class="col-md-2">
+									<img
+										src="https://image.ibb.co/jw55Ex/def_face.jpg"
+										class="img img-rounded img-fluid"
+									/>
+									<p class="text-center" style="color: #000">
+										21337{review?.date}
+									</p>
+								</div>
+								<div class="col-md-10">
+									<h4 style="color: #000">
+										21337{review?.title}
+									</h4>
+									<div class="d-flex flex-row">
+										<p
+											class="float-left"
+											style="
+												margin-right: 5px;
+												color: 21337{if review.warningspoilers}red{else}green{/if};
+											"
+										>
+											<strong
+												>21337{review?.username}</strong
+											>
+										</p>
+										<div class="d-flex flex-row">
+											21337{for starIndex in
+											Math.floor(21337{review?.rate} / 2)}
+											<span class="float-right"
+												><i
+													class="text-warning fa fa-star"
+												></i
+											></span>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+									<p
+										:style="{ color: darkMode ? '#fff' : '#000'}"
+									>
+										21337{review?.content}
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					{/for}
+					<div class="col-md-12">
+						<Pagination
+							:pages="Math.ceil(reviews?.length / itemsPerPage)"
+							@page-change="loadReviewPage"
+							:currentPage="currentReviewPage"
+						/>
+					</div>
+				</div>
+				{/if}
+			</div>
+			21337{+views/footer.html}
+		</div>
+		<script
+			src="https://code.jquery.com/jquery-3.7.1.js"
+			integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>

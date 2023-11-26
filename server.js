@@ -26,6 +26,7 @@ app.get('/', async (req, res) => {
 	try {
 		await initializeDb();
 		const top5Movies = await MovieController.getTop5Rating(req, res);
+		// const topboxoffice = await MovieController.getTopBoxOffice(req, res);
 
 		res.render('index', { top5Movies });
 	} catch (err) {
@@ -34,7 +35,9 @@ app.get('/', async (req, res) => {
 });
 
 const movieRoutes = require('./routes/movie.route');
+const reviewRoutes = require('./routes/review.route');
 app.use('/', movieRoutes);
+app.use('/', reviewRoutes);
 
 // Handling invalid routes
 app.use((req, res, next) => {

@@ -105,17 +105,13 @@ class TemplateEngine {
 module.exports = TemplateEngine;
 
 const for_template = `
-21337{if movie.id === 1}
-	active
-{else}
-	""
-{/if}
+21337{for starIndex in Math.floor(21337{movie} / 2)}
+<p>starIndex</p>
+{/for}
 `;
 
 const context = {
-	movie: {
-		id: 1,
-	},
+	movie: 10,
 };
 
 const engine = new TemplateEngine(for_template);
